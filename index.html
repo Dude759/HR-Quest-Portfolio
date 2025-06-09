@@ -41,7 +41,7 @@
         .progress-bar-inner {
             background: linear-gradient(90deg, #4ec9b0, #569cd6);
             height: 16px;
-            width: 25%; /* Пример: 25% прогресса */
+            width: 25%;
             transition: width 0.5s;
         }
         .console {
@@ -59,7 +59,7 @@
         .editor {
             width: 100%;
             min-height: 60px;
-            max-height: 200px; /* ограничение по высоте */
+            max-height: 200px;
             background: #1e1e1e;
             color: #d4d4d4;
             border: 1px solid #333;
@@ -67,8 +67,7 @@
             font-family: inherit;
             font-size: 1em;
             padding: 0.5em;
-            resize: vertical; /* разрешить только вертикальное изменение размера */
-            /* если хотите полностью запретить изменение размера: resize: none; */
+            resize: vertical;
         }
         .btn {
             background: linear-gradient(90deg, #007acc 0%, #4ec9b0 100%);
@@ -106,7 +105,6 @@
             color: #f44747;
             font-weight: bold;
         }
-        /* Модальное окно */
         #modal-hint {
             display: none;
             position: fixed;
@@ -151,18 +149,15 @@
             </div>
             <div id="feedback-flexbox"></div>
         </section>
-        <!-- Здесь будут другие задания -->
         <section id="portfolio-section" style="display:none;">
             <h2>Портфолио</h2>
             <p>Поздравляем! Вы разблокировали портфолио.</p>
-            <!-- Здесь разместите свои работы и контакты -->
             <p>Telegram: @yourusername</p>
         </section>
     </main>
     <footer>
         <p>&copy; 2025 Квест для HR Dude759</p>
     </footer>
-    <!-- Модальное окно с подсказкой -->
     <div id="modal-hint">
       <div>
         <p>Почитайте про Flexbox на MDN:<br>
@@ -174,7 +169,6 @@
       </div>
     </div>
     <script>
-        // Проверка CSS Flexbox задания
         function flexboxChallenge() {
             const userAnswer = document.getElementById('code-input-flexbox').value;
             const feedback = document.getElementById('feedback-flexbox');
@@ -189,7 +183,6 @@
                 feedback.innerHTML = '<span class="error">Ошибка: попробуйте ещё раз!</span>';
             }
         }
-        // Подсказка
         function showHint(type) {
             if (type === 'flexbox') {
                 document.getElementById('modal-hint').style.display = 'flex';
