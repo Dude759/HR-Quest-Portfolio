@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Квест для HR</title>
+    <style>
+        body {
+            background: #1e1e1e;
+            color: #d4d4d4;
+            font-family: 'Fira Mono', 'Consolas', monospace;
+            margin: 0;
+            min-height: 100vh;
+        }
+        header, footer {
+            background: #222;
+            padding: 1em;
+            text-align: center;
+        }
+        footer {
+            position: fixed;
+            left: 0;
+            bottom: 0;
+            width: 100vw;
+            z-index: 999;
+        }
+        main {
+            max-width: 800px;
+            margin: 2em auto;
+            background: #252526;
+            border-radius: 8px;
+            box-shadow: 0 0 10px #0008;
+            padding: 2em;
+        }
+        .progress-bar {
+            background: #333;
+            border-radius: 4px;
+            overflow: hidden;
+            margin-bottom: 2em;
+        }
+        .progress-bar-inner {
+            background: linear-gradient(90deg, #4ec9b0, #569cd6);
+            height: 16px;
+            width: 25%; /* Пример: 25% прогресса */
+            transition: width 0.5s;
+        }
+        .console {
+            background: #1e1e1e;
+            border: 1px solid #333;
+            border-radius: 4px;
+            padding: 1em;
+            margin-bottom: 2em;
+            font-size: 1em;
+            min-height: 80px;
+        }
+        .challenge {
+            margin-bottom: 2em;
+        }
+        .editor {
+            width: 100%;
+            min-height: 60px;
+            max-height: 200px; /* ограничение по высоте */
+            background: #1e1e1e;
+            color: #d4d4d4;
+            border: 1px solid #333;
+            border-radius: 4px;
+            font-family: inherit;
+            font-size: 1em;
+            padding: 0.5em;
+            resize: vertical; /* разрешить только вертикальное изменение размера */
+            /* если хотите полностью запретить изменение размера: resize: none; */
+        }
+        .btn {
+            background: linear-gradient(90deg, #007acc 0%, #4ec9b0 100%);
+            color: #fff;
+            border: none;
+            border-radius: 6px;
+            padding: 0.6em 1.4em;
+            cursor: pointer;
+            margin-right: 1em;
+            font-size: 1.05em;
+            font-weight: 600;
+            box-shadow: 0 2px 8px #0003;
+            transition: background 0.3s, transform 0.1s, box-shadow 0.3s;
+            outline: none;
+        }
+        .btn:hover, .btn:focus {
+            background: linear-gradient(90deg, #569cd6 0%, #4ec9b0 100%);
+            transform: translateY(-2px) scale(1.04);
+            box-shadow: 0 4px 16px #0005;
+        }
+        .btn:active {
+            background: linear-gradient(90deg, #005a9e 0%, #379683 100%);
+            transform: scale(0.98);
+        }
+        .hint {
+            color: #b5cea8;
+            font-size: 0.95em;
+            margin-top: 0.5em;
+        }
+        .success {
+            color: #4ec9b0;
+            font-weight: bold;
+        }
+        .error {
+            color: #f44747;
+            font-weight: bold;
+        }
+        /* Модальное окно */
+        #modal-hint {
+            display: none;
+            position: fixed;
+            left: 0;
+            top: 0;
+            width: 100vw;
+            height: 100vh;
+            background: #000a;
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+        }
+        #modal-hint > div {
+            background: #252526;
+            color: #d4d4d4;
+            padding: 2em;
+            border-radius: 8px;
+            max-width: 90vw;
+            box-shadow: 0 4px 32px #0008;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Квест для HR</h1>
+        <div class="progress-bar">
+            <div class="progress-bar-inner" id="progress-bar-inner"></div>
+        </div>
+    </header>
+    <main>
+        <section class="challenge" id="challenge-flexbox">
+            <h2>CSS-загадка</h2>
+            <div class="console" id="console-flexbox">
+                Чтобы пройти дальше, сделай этот блок по центру с помощью Flexbox.<br>
+                <span class="hint">Введите CSS-код ниже:</span>
+            </div>
+            <textarea class="editor" id="code-input-flexbox" placeholder="Например: display: flex; justify-content: center;"></textarea>
+            <div style="margin-top: 1em;">
+                <button class="btn" onclick="flexboxChallenge()">Проверить</button>
+                <button class="btn" onclick="showHint('flexbox')">Подсказка</button>
+            </div>
+            <div id="feedback-flexbox"></div>
+        </section>
+        <!-- Здесь будут другие задания -->
+        <section id="portfolio-section" style="display:none;">
+            <h2>Портфолио</h2>
+            <p>Поздравляем! Вы разблокировали портфолио.</p>
+            <!-- Здесь разместите свои работы и контакты -->
+            <p>Telegram: @yourusername</p>
+        </section>
+    </main>
+    <footer>
+        <p>&copy; 2025 Квест для HR Dyanell</p>
+    </footer>
+    <!-- Модальное окно с подсказкой -->
+    <div id="modal-hint">
+      <div>
+        <p>Почитайте про Flexbox на MDN:<br>
+          <a href="https://developer.mozilla.org/ru/docs/Web/CSS/CSS_Flexible_Box_Layout/Basic_Concepts_of_Flexbox" target="_blank" style="color:#4ec9b0; text-decoration:underline;">
+            https://developer.mozilla.org/ru/docs/Web/CSS/CSS_Flexible_Box_Layout/Basic_Concepts_of_Flexbox
+          </a>
+        </p>
+        <button class="btn" onclick="closeHint()">Закрыть</button>
+      </div>
+    </div>
+    <script>
+        // Проверка CSS Flexbox задания
+        function flexboxChallenge() {
+            const userAnswer = document.getElementById('code-input-flexbox').value;
+            const feedback = document.getElementById('feedback-flexbox');
+            if (
+                userAnswer.includes('display: flex') &&
+                userAnswer.includes('justify-content: center')
+            ) {
+                feedback.innerHTML = '<span class="success">Верно! Портфолио разблокировано.</span>';
+                document.getElementById('portfolio-section').style.display = 'block';
+                document.getElementById('progress-bar-inner').style.width = '100%';
+            } else {
+                feedback.innerHTML = '<span class="error">Ошибка: попробуйте ещё раз!</span>';
+            }
+        }
+        // Подсказка
+        function showHint(type) {
+            if (type === 'flexbox') {
+                document.getElementById('modal-hint').style.display = 'flex';
+            }
+        }
+        function closeHint() {
+            document.getElementById('modal-hint').style.display = 'none';
+        }
+    </script>
+</body>
+</html>
